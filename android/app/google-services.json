@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1018146079432",
+    "firebase_url": "https://firstapp-df3fa.firebaseio.com",
+    "project_id": "firstapp-df3fa",
+    "storage_bucket": "firstapp-df3fa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1018146079432:android:50b6d28e294760546edbfd",
+        "android_client_info": {
+          "package_name": "com.survey.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1018146079432-s8fbar4rh8ft6f4gvdpbhbvgluvqvbfc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC25XOUkzQng5WoRvJdcX-UcYLDdDBlzVc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1018146079432-s8fbar4rh8ft6f4gvdpbhbvgluvqvbfc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
