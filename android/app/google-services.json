@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "1018146079432",
-    "firebase_url": "https://firstapp-df3fa.firebaseio.com",
-    "project_id": "firstapp-df3fa",
-    "storage_bucket": "firstapp-df3fa.appspot.com"
+    "project_number": "283004128658",
+    "firebase_url": "https://surveyapp-42b73.firebaseio.com",
+    "project_id": "surveyapp-42b73",
+    "storage_bucket": "surveyapp-42b73.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1018146079432:android:50b6d28e294760546edbfd",
+        "mobilesdk_app_id": "1:283004128658:android:d8ca1fb436d17b3871c54b",
         "android_client_info": {
-          "package_name": "com.survey.app"
+          "package_name": "com.surveyapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1018146079432-s8fbar4rh8ft6f4gvdpbhbvgluvqvbfc.apps.googleusercontent.com",
+          "client_id": "283004128658-j3t58dl78jj9591pb7hfimme2k22menh.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC25XOUkzQng5WoRvJdcX-UcYLDdDBlzVc"
+          "current_key": "AIzaSyBMNsGPYa2Oz05Wr17hJF6-OjA3oJFvFD8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1018146079432-s8fbar4rh8ft6f4gvdpbhbvgluvqvbfc.apps.googleusercontent.com",
+              "client_id": "283004128658-j3t58dl78jj9591pb7hfimme2k22menh.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
