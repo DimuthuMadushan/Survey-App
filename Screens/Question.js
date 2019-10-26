@@ -75,11 +75,38 @@ export default class questionScreen extends Component{
 
     this.state = {
       surveyId:'-Ls5cR9NAPPIpSuRVrke',
-      questions: [],
+      questionArr: [],
+      question:"",
+      qId:1,
     };
 
   }
 
+
+  GetQuestion = async (sId) =>{
+    firebase.database().ref(`/surveys/`+sId+`/questions`).once("value")
+    .then((snap) => {
+      this.setState({questionArr: snap.val()});
+    });
+    
+  }
+  
+  async componentDidMount(){
+     await this.GetQuestion(this.state.surveyId);
+  }
+
+  loadQuestion=(type)=>{
+      this.setState(prevState=>{
+        if(prevState.qId >1 && prevState.qId<this.state.questionArr.length-1){
+          return {qId: type=='next' ? prevState.qId+1:prevState.qId-1}
+        }else if(prevState.qId==1){
+          return {qId: type=='next' ? prevState.qId+1:prevState.qId}
+        }else if(prevState.qId==this.state.questionArr.length-1){
+          return {qId: type=='next' ? prevState.qId:prevState.qId-1}
+        }
+      })
+    
+  }
   // componentDidMount(){
   //   this._isMounted = true;
   //   var sId = this.state.surveyId;
@@ -113,11 +140,11 @@ export default class questionScreen extends Component{
             <ProgressBar/>
           </View>
           <View style={[styles.body,{flex:7}]}>
-            <Mcq/>
+            <Mcq data={this.state.questionArr[this.state.qId]}/>
           </View>
           <View style={styles.footerButton}>
             <TouchableOpacity style={styles.touchable}>
-              <Text style={styles.touchtext}>
+              <Text style={styles.touchtext} onPress={()=>this.loadQuestion('back')}>
                 Back
               </Text>
             </TouchableOpacity>
@@ -129,7 +156,7 @@ export default class questionScreen extends Component{
               </Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.touchable}>
-              <Text style={styles.touchtext}>
+              <Text style={styles.touchtext} onPress={()=>this.loadQuestion('next')}>
                 Next
               </Text>
             </TouchableOpacity>

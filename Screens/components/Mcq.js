@@ -46,7 +46,8 @@ export default class Mcq extends Component{
         super(props)
 
         this.state= {
-            questionType:"MCQ"
+            questionType:"MCQ",
+
         }
     }
 
@@ -56,7 +57,7 @@ export default class Mcq extends Component{
             return(
                 <View style={styles.container}>
                     <View style={{alignSelf: 'center'}}>
-                        <Text style={styles.qtext}>Is your work meaningful ?</Text>   
+                        <Text style={styles.qtext}>{this.props.data}</Text>   
                     </View>
                     <View style={styles.answer}>
                         <RadioForm
