@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Button, TextInput, TouchableHighlight, Alert} from 'react-native';
+import {Platform, StyleSheet, Text, View, Button, TextInput, TouchableHighlight, Alert, TouchableOpacity, Image} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import { firebase } from '@react-native-firebase/auth';
@@ -52,6 +52,8 @@ export default class SignUpScreen extends Component {
           case 'auth/weak-password':
                 Alert.alert('Password should be at least 6 characters!')
                 break;
+          case 'auth/invalid-email':
+                Alert.alert('Please enter a valid email!')
         }
         console.log(error)
         this.setState({ errorMessage: error.message })
@@ -61,6 +63,9 @@ export default class SignUpScreen extends Component {
   render(){
     return (
       <View style={styles.container}>
+        <Text style={styles.nomalText}>
+        Please enter your details.
+        </Text>
         <TextInput
           value={this.state.firstName}
           onChangeText={(firstName) => this.setState({firstName})}
@@ -91,15 +96,34 @@ export default class SignUpScreen extends Component {
           style={styles.input}
         />
 
-        <TouchableHighlight
+        <TouchableOpacity
           style={styles.touchable}
-          onPress={this.handleSignUp}
-          underlayColor={themeColor}>
+          onPress={() => {
+            if (!this.state.email || !this.state.password || !this.state.lastName || !this.state.firstName) {
+              Alert.alert('Empty inputs found!')
+            }
+            else {
+              console.log('inputs ok')
+              this.handleSignUp()
+            }
+          }}
+          underlayColor='#4b0082'>
           <Text style={styles.touchtext}>
-            Enter
+            SIGN UP
           </Text>
-        </TouchableHighlight>
-
+        </TouchableOpacity>
+        <View style={{padding: 10}}>
+        <TouchableOpacity
+          style={styles.touchable}
+          onPress={() => {
+            this.props.navigation.navigate('Welcome')
+          }}
+          underlayColor='#4b0082'>
+          <Text style={styles.touchtext}>
+            SIGN IN
+          </Text>
+        </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -138,4 +162,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#ffffff',
   },
+  nomalText: {
+    padding: 15,
+    fontWeight: 'bold',
+    textAlign: 'left', 
+    color: '#4b0082', 
+    fontSize: 20
+    },
 });

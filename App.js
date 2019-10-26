@@ -8,6 +8,7 @@ import SignUpScreen from './Screens/SignUp';
 import MainScreen from './Screens/Main';
 import WelcomeScreen from './Screens/Welcome';
 import authLoadingScreen from './Screens/authLoading'
+import QuestionScreen from './Screens/Question'
 // import { createStackNavigator } from 'react-navigation-stack';
 import { createSwitchNavigator} from 'react-navigation';
 import {createAppContainer } from 'react-navigation';
@@ -27,6 +28,9 @@ const AppNavigator = createSwitchNavigator(
     },
     AuthLoading: {
       screen: authLoadingScreen
+    },
+    SurveyScreen: {
+      screen: QuestionScreen
     }
   },
   {

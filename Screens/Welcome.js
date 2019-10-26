@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Button, TextInput, TouchableHighlight, Alert, Image} from 'react-native';
-import { NavigationActions, navigation} from 'react-native'
-import auth from '@react-native-firebase/auth'
+import {Platform, StyleSheet, Text, View, Button, TextInput, TouchableOpacity, Alert, Image} from 'react-native';
+import { NavigationActions, navigation} from 'react-native';
+import auth from '@react-native-firebase/auth';
 import { firebase } from '@react-native-firebase/auth';
 
 export default class WelcomeScreen extends React.Component {
@@ -34,8 +34,11 @@ export default class WelcomeScreen extends React.Component {
           )
         .catch(error => {
           console.log(error.code)
-          if (error.code == 'auth/wrong-password') {
-            Alert.alert('Wrong email or password!')
+          if (error.code == 'auth/wrong-password' || error.code == 'auth/unknown') {
+            Alert.alert('Wrong password!')
+          }
+          if (error.code == 'auth/invalid-email') {
+            Alert.alert('Wrong email!')
           }
           this.setState({ errorMessage: error.message })
         })
@@ -48,6 +51,7 @@ export default class WelcomeScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <Image source={require('./../images/appIcon.png')}/>
         <Text style={styles.text}>
           Sign in to continue
         </Text>
@@ -66,25 +70,35 @@ export default class WelcomeScreen extends React.Component {
           placeholderTextColor='#4b0082'
           style={styles.input}
         />
-        <TouchableHighlight
+        <TouchableOpacity
           style={styles.touchable}
-          onPress={this.handleLogin}
+          onPress={() => {
+            if (!this.state.email || !this.state.password) {
+              Alert.alert('Empty inputs found!')
+            }
+            else {
+              console.log('inputs ok')
+              this.handleLogin()
+            }
+          }}
           underlayColor='#4b0082'>
           <Text style={styles.touchtext}>
             SIGN IN
           </Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
         <Text style={styles.text}>
           Don't have an account?
         </Text>
-        <TouchableHighlight
+        <TouchableOpacity
           style={styles.touchable}
-          onPress={() => this.props.navigation.navigate('Signup')}
+          onPress={() => {
+            this.props.navigation.navigate('Signup')
+          }}
           underlayColor='#4b0082'>
           <Text style={styles.touchtext}>
             SIGN UP
           </Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -130,4 +144,5 @@ const styles = StyleSheet.create({
     textAlign: 'left', 
     color: '#4b0082', 
     fontSize: 20} 
-  });
+  },
+);
