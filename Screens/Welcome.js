@@ -1,21 +1,10 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Button, TextInput, TouchableOpacity, Alert, Image} from 'react-native';
+import {StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, Image} from 'react-native';
 import { NavigationActions, navigation} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { firebase } from '@react-native-firebase/auth';
 
 export default class WelcomeScreen extends React.Component {
-  static navigationOptions = {  
-    title: 'Welcome',
-    headerStyle: {  
-      backgroundColor: '#4b0082',  
-    },  
-    headerTitleStyle: {
-      alignSelf: 'center',
-      color: '#ffffff',  
-      fontWeight: 'bold',  
-    },
-  };
   constructor(props) {
     super(props);
     this.state = {
@@ -29,9 +18,7 @@ export default class WelcomeScreen extends React.Component {
       firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
-        .then(
-          //() => this.props.navigation.navigate('Main')
-          )
+        .then()
         .catch(error => {
           console.log(error.code)
           if (error.code == 'auth/wrong-password' || error.code == 'auth/unknown') {

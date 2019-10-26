@@ -1,23 +1,12 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Button, TextInput, TouchableHighlight, Alert, TouchableOpacity, Image} from 'react-native';
+import {StyleSheet, Text, View, TextInput, Alert, TouchableOpacity, Image} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import { firebase } from '@react-native-firebase/auth';
 
-// const themeColor = '#2f4f4f';
 const themeColor = '#4b0082'
 
 export default class SignUpScreen extends Component {
-  static navigationOptions = {  
-    title: 'Sign Up',
-    headerStyle: {  
-        backgroundColor: themeColor,  
-    },  
-    headerTitleStyle: {
-        color: '#ffffff',  
-        fontWeight: 'bold',  
-    },  
-  };
     constructor(props) {
     super(props);
     this.state = {

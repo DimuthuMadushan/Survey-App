@@ -13,14 +13,6 @@ export default class authLoadingScreen extends Component {
         firebase.auth().onAuthStateChanged((user) => {
             console.log(!!user,"AUTH LOADING")
             this.props.navigation.navigate(user ? 'Main': 'Welcome')
-            // if (!user) {
-            //     console.log('welcome')
-            //     this.props.navigation.push('Welcome')
-            // }
-            // else {
-            //     console.log('main')
-            //     this.props.navigation.push('Main')
-            // }
         })
     }
 
