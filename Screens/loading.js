@@ -8,7 +8,6 @@ export default class LoadingView extends Component {
         return (
             <View style={styles.container}>
                 <Text style={{color:themeColor, fontSize: 25}}>Loading..</Text>
-                <Text style={{color:themeColor, fontSize: 25}}>Please wait</Text>
                 <ActivityIndicator color={themeColor} size="large" />
             </View>
         )

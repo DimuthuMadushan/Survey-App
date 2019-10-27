@@ -4,11 +4,9 @@ import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import { firebase } from '@react-native-firebase/auth';
 import LoadingView from './loading';
-// import FirebaseComponents from './../Components/FireBase'
-
+// import FirebaseComponents from './components/FireBase';
 
 const themeColor = '#4b0082';
-
 
 export default class MainScreen extends Component {
   _isMounted = false;
@@ -17,68 +15,50 @@ export default class MainScreen extends Component {
     super(props);
     this.state = { 
       currentUser: '',
-      numPendingSurveys: 0,
-      fSnapshot: null
+      totalSurveys: [],
+      filledSurveys: [],
+      pendingSurveys: [],
       };
-    // Firebase = new FirebaseComponents();
+    // FireBaseCom = new FirebaseComponents();
   };
-  
+ 
   componentDidMount () {
     this._isMounted = true;
     var userId = firebase.auth().currentUser.uid;
-    firebase.database().ref(`/users/${userId}/firstName`).on("value", snapshot => {
+    firebase.database().ref(`/users/${userId}/firstName`).once("value", snapshot => {
       if (this._isMounted) { 
       this.setState({currentUser: snapshot.val()});
       }
     });
+    firebase.database().ref(`currentSurveyIDs/`).once("value", snapshot => {
+      if (this._isMounted){
+        var snapshot = JSON.parse(JSON.stringify(snapshot));
+        var array = []
+        for (ID in snapshot){
+          array.push(ID);
+        }
+        this.setState({totalSurveys: array});
+      }
+    });
+    firebase.database().ref(`users/${userId}/answeredSurveys`).once("value", snapshot => {
+      if (this._isMounted){
+        var snapshot = JSON.parse(JSON.stringify(snapshot));
+        var array = []
+        for (ID in snapshot){
+          array.push(ID);
+        }
+        this.setState({filledSurveys: array});
+      }
+    })
   }
 
-  getPendingSurveys = (userID)=> {
-		var surveyList = [];
-		var userSurveyList = [];
-		var x=3;
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
 
-		function loadData(){	
-			return firebase.database().ref(`currentSurveyIDs/`).once("value");
-		};
-
-		function loaduserData(uID){
-			return firebase.database().ref(`users/`+uID+`/answeredSurveys`).once("value");
-		};
-
-		async function ListsUpdate(uID) {
-			await loadData().then((snapshot) => {
-				var array = JSON.parse(JSON.stringify(snapshot));
-				for (ID in array){
-					surveyList.push(ID)
-				};
-			});
-			await loaduserData(uID).then((snapshot) => {
-				var array = JSON.parse(JSON.stringify(snapshot));
-				for (ID in array){
-					userSurveyList.push(ID)
-				};
-			});
-			x = 5;
-		}
-		ListsUpdate(userID)
-		return x;
-	}
-
-  Numquestions = () => {
-    var numQ = this.state.numPendingSurveys;
-
-    const DATA = [
-      {
-        'id': '1',
-        'content': 'a'
-      },
-      {
-        'id': '2',
-        'content': 'b'
-      }
-    ]
-
+  showNumSurvey = () => {
+    var numQ = this.state.pendingSurveys.length;
+    var DATA = this.state.pendingSurveys
     if (numQ){
       return(
         // console.log('here')
@@ -87,16 +67,19 @@ export default class MainScreen extends Component {
           <View style={{padding:3}}></View>
           <FlatList
             data={DATA}
-            renderItem={({ item }) => (
+            renderItem={({ item, index }) => (
+      
               <View style={styles.body}>
                 <TouchableOpacity
                   style={styles.touchableload}
                   onPress={() => {
-                    this.props.navigation.navigate('SurveyScreen')
+                    this.props.navigation.navigate('SurveyScreen',{
+                      ID: item
+                    });
                   }}
                   underlayColor='#4b0082'>
                   <Text style={styles.touchtext}>
-                    Enter survey {item.id}
+                    Enter survey #{index+1}
                   </Text>
                 </TouchableOpacity>
                 <View style={{padding:3}}></View>
@@ -114,9 +97,27 @@ export default class MainScreen extends Component {
     }
   }
 
-  componentWillUnmount() {
-    this._isMounted = false;
+  // displayQuestions(surveyID){
+  //   console.log('rendering')
+  //   return(
+  //     <Question ID={surveyID}/>
+  //   )
+  // }
+
+  getPendingSurveyList(){
+    var array = [];
+    var total = this.state.totalSurveys;
+    var filled = this.state.filledSurveys;
+    
+    total.forEach(function (item, index) {
+      if (!filled.includes(item)){
+        array.push(item);
+      }
+    });
+    console.log(array);
+    this.setState({pendingSurveys: array})
   }
+
 
   logOut = () => {
     firebase.auth().signOut(),
@@ -140,7 +141,7 @@ export default class MainScreen extends Component {
 
           </View>
 
-          {this.Numquestions()}
+          {this.showNumSurvey()}
           {/* <View style={{flex: 1, padding: 20, justifyContent: 'flex-end'}}>
             <TouchableHighlight
               style={styles.touchable}
@@ -156,13 +157,20 @@ export default class MainScreen extends Component {
             <TouchableOpacity
               style={styles.touchableload}
               onPress={() => {
-                this.setState({numPendingSurveys: this.getPendingSurveys(firebase.auth().currentUser.uid)})
+                this.getPendingSurveyList();
               }}
               underlayColor='#4b0082'>
               <Text style={styles.touchtext}>
                 Refresh
               </Text>
             </TouchableOpacity>
+            <View style={{padding:10}}></View>
+          {/* <TouchableOpacity style={styles.touchable}
+              onPress={() => {FireBaseCom.writeSurvey()}}>
+                <Text style={styles.touchtext}>
+                  Write a survey
+                </Text>
+          </TouchableOpacity> */}
             <View style={{padding:10}}></View>
             <TouchableHighlight
               style={styles.touchable}

@@ -47,7 +47,11 @@ export default class Mcq extends Component{
 
         this.state= {
             questionType:"MCQ",
+<<<<<<< HEAD
 
+=======
+            question: props.q,
+>>>>>>> ab861413b09788c56dc47fda7f91b783462838a2
         }
     }
 
@@ -57,7 +61,11 @@ export default class Mcq extends Component{
             return(
                 <View style={styles.container}>
                     <View style={{alignSelf: 'center'}}>
+<<<<<<< HEAD
                         <Text style={styles.qtext}>{this.props.data}</Text>   
+=======
+                        <Text style={styles.qtext}>{this.props.q}</Text>   
+>>>>>>> ab861413b09788c56dc47fda7f91b783462838a2
                     </View>
                     <View style={styles.answer}>
                         <RadioForm

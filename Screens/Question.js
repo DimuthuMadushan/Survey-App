@@ -8,6 +8,155 @@ import LoadingView from './loading';
 
 const themeColor = '#4b0082';
 
+export default class QuestionScreen extends Component{
+  _isMounted = false;
+  constructor(props){
+    super(props);
+
+    this.state = {
+      surveyId: this.props.navigation.state.params.ID,
+      // surveyId: '-Ls5cSw1d80_DLALk52_',
+      // surveyId: '',
+      questions: [],
+      curQuIndex: 1,
+    };
+  }
+
+  componentDidMount(){
+    this._isMounted = true;
+    var surveyID = this.state.surveyId;
+    firebase.database().ref(`surveys/${surveyID}/`).once("value", snapshot => {
+      if (this._isMounted){
+        var snapshot = JSON.parse(JSON.stringify(snapshot));
+        var array = []
+        for (ID in snapshot.questions){
+          array.push(snapshot.questions[ID]);
+        }
+        this.setState({questions: array});
+        console.log(array);
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
+  render() {
+    if (this.state.questions == ''){
+      return (
+        <LoadingView/>
+      )
+    }
+    else {
+      var quizes = this.state.questions;
+      var index = this.state.curQuIndex;
+      var progress = ((index-1)/(quizes.length-1))*100+'%';
+      console.log(progress)
+      if (index === 1){
+        return (
+          <View style={{flex:1, flexDirection:'column', backgroundColor:themeColor}}>
+            <View style={styles.headerContainer}>
+              <Text style={styles.headerTitle}>Question {this.state.curQuIndex}</Text>
+            </View> 
+            <View style={[styles.progressBar,{flex:1}]}>
+              <ProgressBar prog={progress}/>
+            </View>
+            <View style={[styles.body,{flex:7}]}>
+              <Mcq q={quizes[this.state.curQuIndex]}/>
+            </View>
+            <View style={styles.footerButton}>
+              <TouchableOpacity 
+                style={styles.touchable}
+                onPress={() => {this.props.navigation.navigate('Main')}}>
+                <Text style={styles.touchtext}>
+                  Home
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.touchable}
+              onPress={() => {this.setState({curQuIndex: index+1})}}>
+                <Text style={styles.touchtext}>
+                  Next
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )
+      }
+      else if (index === quizes.length-1){
+        return (
+          <View style={{flex:1, flexDirection:'column', backgroundColor:themeColor}}>
+          <View style={styles.headerContainer}>
+            <Text style={styles.headerTitle}>Question {this.state.curQuIndex}</Text>
+          </View> 
+          <View style={[styles.progressBar,{flex:1}]}>
+            <ProgressBar prog={progress}/>
+          </View>
+          <View style={[styles.body,{flex:7}]}>
+            <Mcq q={quizes[this.state.curQuIndex]}/>
+          </View>
+          <View style={styles.footerButton}>
+            <TouchableOpacity style={styles.touchable}
+              onPress={() => {this.setState({curQuIndex: index-1})}}>
+                <Text style={styles.touchtext}>
+                  Back
+                </Text>
+              </TouchableOpacity>
+            <TouchableOpacity 
+              style={styles.touchable}
+              onPress={() => {
+                this.props.navigation.navigate('Main');
+                }
+              }>
+              <Text style={styles.touchtext}>
+                Submit
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        )
+      }
+      else {
+        return (
+          <View style={{flex:1, flexDirection:'column', backgroundColor:themeColor}}>
+            <View style={styles.headerContainer}>
+              <Text style={styles.headerTitle}>Question {this.state.curQuIndex}</Text>
+            </View> 
+            <View style={[styles.progressBar,{flex:1}]}>
+              <ProgressBar prog={progress}/>
+            </View>
+            <View style={[styles.body,{flex:7}]}>
+              <Mcq q={quizes[this.state.curQuIndex]}/>
+            </View>
+            <View style={styles.footerButton}>
+              <TouchableOpacity style={styles.touchable}
+              onPress={() => {this.setState({curQuIndex: index-1})}}>
+                <Text style={styles.touchtext}>
+                  Back
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity 
+                style={styles.touchable}
+                onPress={() => {this.props.navigation.navigate('Main')}}>
+                <Text style={styles.touchtext}>
+                  Home
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.touchable}
+              onPress={() => {this.setState({curQuIndex: index+1})}}>
+                <Text style={styles.touchtext}>
+                  Next
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        );
+      }
+    }
+  }
+}
+
+
 const styles = StyleSheet.create({
 
   headerContainer: {
@@ -67,6 +216,7 @@ const styles = StyleSheet.create({
 
 
 
+<<<<<<< HEAD
 export default class questionScreen extends Component{
 
 
@@ -167,4 +317,6 @@ export default class questionScreen extends Component{
 }
 
 
+=======
+>>>>>>> ab861413b09788c56dc47fda7f91b783462838a2
 

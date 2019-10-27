@@ -37,7 +37,7 @@ export default class ProgressBar extends Component{
         return(
             <View>
                 <View style={styles.progressBar}>
-                    <Animated.View style={[StyleSheet.absoluteFill],{backgroundColor: '#00008b', width:this.state.progress,borderRadius:15}}/>
+                    <Animated.View style={[StyleSheet.absoluteFill],{backgroundColor: '#00008b', width:this.props.prog ,borderRadius:15}}/>
                 </View>
             </View>
         );
